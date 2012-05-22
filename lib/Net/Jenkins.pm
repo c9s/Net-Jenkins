@@ -2,8 +2,11 @@ package Net::Jenkins;
 use strict;
 use warnings;
 our $VERSION = '0.01';
+use LWP::UserAgent;
 use Moose;
 use methods;
+use URI;
+use JSON;
 
 has protocol => ( is => 'rw', isa => 'Str', default => 'http' );
 
@@ -11,11 +14,26 @@ has host => ( is => 'rw', isa => 'Str' , default => 'localhost' ) ;
 
 has port => ( is => 'rw', isa => 'Int' , default => 8080 ) ;
 
+has user_agent => ( is => 'rw' , default => sub { 
+    return LWP::UserAgent->new;
+});
 
-sub get_base_url {
-
+method get_base_url {
+    return $self->protocol 
+                . '://' . $self->host 
+                . ':' . $self->port;
 }
 
+method get_json( $uri ) {
+    my $response = $self->user_agent->get($uri);
+    return decode_json $response->decoded_content if $response->is_success;
+}
+
+method get_jenkins_info {
+    my $uri = $self->get_base_url . '/api/json';
+    my $json = $self->get_json( $uri );
+    return $json;
+}
 
 1;
 __END__
