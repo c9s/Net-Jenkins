@@ -3,6 +3,7 @@ use strict;
 use warnings;
 our $VERSION = '0.01';
 use Moose;
+use methods;
 
 has protocol => ( is => 'rw', isa => 'Str', default => 'http' );
 
@@ -11,7 +12,9 @@ has host => ( is => 'rw', isa => 'Str' , default => 'localhost' ) ;
 has port => ( is => 'rw', isa => 'Int' , default => 8080 ) ;
 
 
+sub get_base_url {
 
+}
 
 
 1;

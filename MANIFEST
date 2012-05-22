@@ -16,7 +16,7 @@ MANIFEST			This list of files
 META.yml
 MYMETA.json
 MYMETA.yml
-README
+README.mkdn
 t/00_compile.t
 xt/01_podspell.t
 xt/02_perlcritic.t
