@@ -43,7 +43,7 @@ method build {
 
 
 # get job configuration
-method config {
+method details {
     return $self->_api->get_job_details( $self->name );
 }
 

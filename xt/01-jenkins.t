@@ -23,17 +23,17 @@ for my $job ( $jenkins->jobs ) {
     ok $job->build;
 
 
-    my $config = $job->config;
+    my $details = $job->details;
     my $queue = $job->queue_item;
 
     ok $queue;
 
-    while( $job->in_queue ) {
-        ok 1 , "in queue";
-        sleep 1;
-    }
+#     while( $job->in_queue ) {
+#         ok 1 , "in queue";
+#         # sleep 1;
+#     }
 
-    ok $config;
+    ok $details;
     ok $job->name;
 
     if( $job->last_build ) {
@@ -49,7 +49,7 @@ for my $job ( $jenkins->jobs ) {
         ok $build->created_at;
     }
 
-    ok $job->delete;
+    # ok $job->delete;
 }
 
 # ok $jenkins->restart;  # returns true if success
