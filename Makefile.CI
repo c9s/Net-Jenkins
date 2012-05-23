@@ -1,1 +1,35 @@
-/Users/c9s/git/Work/Jenkins-Perl-Template/Makefile.CI
+
+LOG_DIR=logs
+
+# enable profiler
+PERL5DB:='use Devel::NYTProf'
+NYTPROF:=start=begin:file=nytprof.out
+PERL5LIB:="lib:t/lib:t/*/lib:$${PERL5LIB}"
+PERL_TEST_HARNET_DUMP_TAP:=$(LOG_DIR)
+TEST_VERBOSE:=1
+
+
+all: clean prepare build tests coverage nytprof
+
+clean:
+	([[ -e Makefile ]] && make realclean) || @$(NOOP)
+	rm -vf nytprof.out Makefile Makefile.old;
+
+prepare:
+	mkdir -p $(LOG_DIR)
+
+build:
+	perl Makefile.PL
+
+tests: build
+	HARNESS_PERL_SWITCHES=-MDevel::Cover=+ignore,inc prove -lv --formatter TAP::Formatter::JUnit t \
+						2>&1 > $(LOG_DIR)/tests.xml
+
+coverage:
+	cover -report clover
+	cover
+
+nytprof:
+	NYTPROF=start=begin:file=nytprof.out; 
+	perl -Ilib -d:NYTProf t/*.t 
+	nytprofhtml

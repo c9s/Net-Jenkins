@@ -23,7 +23,7 @@ Net::Jenkins -
         # trigger a build
         $job->build;
 
-        my $config = $job->config;
+        my $details = $job->details;
         my $queue = $job->queue_item;
 
         sleep 1 while $job->in_queue ;
@@ -57,6 +57,8 @@ Net::Jenkins is
 Yo-An Lin <cornelius.howl {at} gmail.com>
 
 # SEE ALSO
+
+[Jenkins::Trigger](http://search.cpan.org/perldoc?Jenkins::Trigger)
 
 # LICENSE
 
