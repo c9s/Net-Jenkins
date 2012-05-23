@@ -4,7 +4,7 @@ LOG_DIR=logs
 # enable profiler
 PERL5DB:='use Devel::NYTProf'
 NYTPROF:=start=begin:file=nytprof.out
-PERL5LIB:="lib:t/lib:t/*/lib:$${PERL5LIB}"
+PERL5LIB:="lib:t/lib:t/*/lib:local/lib:$${PERL5LIB}"
 PERL_TEST_HARNET_DUMP_TAP:=$(LOG_DIR)
 TEST_VERBOSE:=1
 SHELL=/bin/bash
@@ -20,7 +20,7 @@ prepare:
 
 build:
 	perl Makefile.PL && make
-	cpanm --installdeps .
+	cpanm -f --local-lib=local --installdeps .
 
 tests: build
 	HARNESS_PERL_SWITCHES=-MDevel::Cover=+ignore,inc prove -lv --formatter TAP::Formatter::JUnit t \
