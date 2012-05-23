@@ -194,6 +194,8 @@ Net::Jenkins -
 =head1 SYNOPSIS
 
     my $jenkins = Net::Jenkins->new;
+    my $jenkins = Net::Jenkins->new( host => 'ci.machine.dev' , port => 1234 );
+
     my $summary = $jenkins->summary;
     my @views = $jenkins->views;
     my $mode = $jenkins->mode;
