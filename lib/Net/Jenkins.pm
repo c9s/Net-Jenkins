@@ -245,6 +245,8 @@ Yo-An Lin E<lt>cornelius.howl {at} gmail.comE<gt>
 
 =head1 SEE ALSO
 
+L<Jenkins::Trigger>
+
 =head1 LICENSE
 
 This library is free software; you can redistribute it and/or modify
