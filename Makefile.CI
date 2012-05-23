@@ -7,12 +7,12 @@ NYTPROF:=start=begin:file=nytprof.out
 PERL5LIB:="lib:t/lib:t/*/lib:$${PERL5LIB}"
 PERL_TEST_HARNET_DUMP_TAP:=$(LOG_DIR)
 TEST_VERBOSE:=1
-
+SHELL=/bin/bash
 
 all: clean prepare build tests coverage nytprof
 
 clean:
-	([[ -e Makefile ]] && make realclean) || @$(NOOP)
+	if [[ -e Makefile ]] ; then make realclean ; fi
 	rm -vf nytprof.out Makefile Makefile.old;
 
 prepare:
