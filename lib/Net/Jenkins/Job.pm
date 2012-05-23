@@ -1,6 +1,7 @@
 package Net::Jenkins::Job;
 use methods;
 use Moose;
+use Net::Jenkins::Job::Build;
 
 has name => ( is => 'rw' , isa => 'Str' );
 
@@ -10,7 +11,7 @@ has color => ( is => 'rw' );
 # 'url' => 'http://localhost:8080/job/Phifty/',
 has url => ( is => 'rw' , isa => 'Str' );
 
-has _api => ( is => 'rw' );
+has _api => ( is => 'rw' , isa => 'Net::Jenkins' );
 
 method delete {
     return $self->_api->delete_job( $self->name );
@@ -25,12 +26,40 @@ method copy ($new_job_name) {
 }
 
 
+method enable {
+    return $self->_api->enable_job($self->name);
+}
+
+method disable {
+    return $self->_api->disable_job($self->name);
+}
+
+
+# trigger a build
+method build {
+    return $self->_api->build_job($self->name);
+}
+
+
+# get job configuration
 method config {
     return $self->_api->get_job_config( $self->name );
 }
 
+# get builds
 method builds {
-    return @{ $self->config->{builds} };
+    return map { Net::Jenkins::Job::Build->new( %$_ , _api => $self->_api, job => $self ) } 
+            $self->_api->get_builds( $self->name );
+}
+
+method last_build {
+    my $b = $self->config->{lastBuild};
+    return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if %$b;
+}
+
+method first_build {
+    my $b = $self->config->{firstBuild};
+    return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if %$b;
 }
 
 1;

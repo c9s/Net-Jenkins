@@ -4,15 +4,12 @@ use Net::Jenkins;
 use File::Read;
 use Test::More;
 
-my $host = $ENV{JENKINS_HOST} || 'localhost';
-my $port = $ENV{JENKINS_PORT} || 8080;
-
-my $jenkins = Net::Jenkins->new( host => $host , port => $port );
-my $info = $jenkins->get_info;
+my $jenkins = Net::Jenkins->new;
+my $summary = $jenkins->summary;
 my @views = $jenkins->views;
 my $mode = $jenkins->mode;
 
-ok $info;
+ok $summary;
 
 my $xml = read_file 'xt/config.xml'; 
 
@@ -23,8 +20,26 @@ my @jobs = $jenkins->jobs;
 ok @jobs;
 
 for my $job ( $jenkins->jobs ) {
+
+    ok $job->build;
+
+    my $config = $job->config;
+
+    ok $config;
     ok $job->name;
-    ok $jenkins->delete_job( $job->name ) , "Delete job";
+
+    $job->last_build->console;
+
+    for my $build ( $job->builds ) {
+        my $d = $build->details;
+        ok $d;
+        ok $d->{duration};
+        ok $build->name;
+        ok $build->id;
+        ok $build->created_at;
+    }
+
+    # ok $job->delete;
 }
 
 # ok $jenkins->restart;  # returns true if success
