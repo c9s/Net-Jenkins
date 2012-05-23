@@ -80,21 +80,6 @@ method restart {
 }
 
 
-
-
-
-=head3 create_job
-
-mode:
-
-    hudson.model.FreeStyleProject (default)
-    hudson.maven.MavenModuleSet
-    hudson.matrix.MatrixProject
-    hudson.model.ExternalJob
-    copy
-
-=cut
-
 method create_job ($job_name,$xml) {
     my $uri = URI->new( $self->get_base_url . '/createItem' );
     $uri->query_form( name => $job_name );
