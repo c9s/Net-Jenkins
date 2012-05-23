@@ -2,3 +2,6 @@ blib/
 private/
 Makefile
 inc/
+MYMETA.json
+MYMETA.yml
+README.mkdn
