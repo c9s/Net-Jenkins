@@ -14,7 +14,7 @@ ok $summary;
 my $xml = read_file 'xt/config.xml'; 
 
 ok $jenkins->create_job( 'Phifty', $xml ) , "job created";
-ok $jenkins->copy_job( 'test2' , 'Phifty' );
+ok $jenkins->copy_job( 'test2' , 'Phifty' ) , "job copied";
 
 my @jobs = $jenkins->jobs;
 ok @jobs;
@@ -23,12 +23,23 @@ for my $job ( $jenkins->jobs ) {
 
     ok $job->build;
 
+
     my $config = $job->config;
+    my $queue = $job->queue_item;
+
+    ok $queue;
+
+    while( $job->in_queue ) {
+        ok 1 , "in queue";
+        sleep 1;
+    }
 
     ok $config;
     ok $job->name;
 
-    $job->last_build->console;
+    if( $job->last_build ) {
+        $job->last_build->console;
+    }
 
     for my $build ( $job->builds ) {
         my $d = $build->details;
@@ -39,7 +50,7 @@ for my $job ( $jenkins->jobs ) {
         ok $build->created_at;
     }
 
-    # ok $job->delete;
+    ok $job->delete;
 }
 
 # ok $jenkins->restart;  # returns true if success

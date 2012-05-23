@@ -2,6 +2,7 @@ package Net::Jenkins::Job;
 use methods;
 use Moose;
 use Net::Jenkins::Job::Build;
+use Net::Jenkins::Job::QueueItem;
 
 has name => ( is => 'rw' , isa => 'Str' );
 
@@ -46,6 +47,22 @@ method config {
     return $self->_api->get_job_config( $self->name );
 }
 
+method description {
+    return $self->config->{description};
+}
+
+method desc {
+    return $self->description;
+}
+
+method in_queue {
+    return $self->config->{inQueue};
+}
+
+method queue_item {
+    return Net::Jenkins::Job::QueueItem->new( %{ $self->config->{queueItem} } , _api => $self->_api , job => $self );
+}
+
 # get builds
 method builds {
     return map { Net::Jenkins::Job::Build->new( %$_ , _api => $self->_api, job => $self ) } 
@@ -54,12 +71,12 @@ method builds {
 
 method last_build {
     my $b = $self->config->{lastBuild};
-    return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if %$b;
+    return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if $b && %$b;
 }
 
 method first_build {
     my $b = $self->config->{firstBuild};
-    return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if %$b;
+    return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if $b && %$b;
 }
 
 1;
