@@ -20,8 +20,13 @@ no_index:
     - t
     - xt
 requires:
+  DateTime: 0
+  JSON: 0
+  LWP::UserAgent: 0
   Moose: 0
+  Net::HTTP: 0
+  URI: 0
   methods: 0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+version: 0.02
