@@ -124,17 +124,16 @@ method build_job ($job_name) {
 
 
 
-method get_job_config ($job_name) {
+method get_job_details ($job_name) {
     my $uri = $self->job_url($job_name) . '/api/json';
-    my $config = $self->get_json($uri);
-    return $config;
+    return $self->get_json($uri);
 }
 
 
 
 
 method get_builds ($job_name) {
-    my $config = $self->get_job_config($job_name);
+    my $config = $self->get_job_details($job_name);
     return @{ $config->{builds} };
 }
 
@@ -212,7 +211,7 @@ Net::Jenkins -
         # trigger a build
         $job->build;
 
-        my $config = $job->config;
+        my $details = $job->details;
         my $queue = $job->queue_item;
 
         sleep 1 while $job->in_queue ;

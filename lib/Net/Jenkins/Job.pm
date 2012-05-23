@@ -44,11 +44,11 @@ method build {
 
 # get job configuration
 method config {
-    return $self->_api->get_job_config( $self->name );
+    return $self->_api->get_job_details( $self->name );
 }
 
 method description {
-    return $self->config->{description};
+    return $self->details->{description};
 }
 
 method desc {
@@ -56,11 +56,11 @@ method desc {
 }
 
 method in_queue {
-    return $self->config->{inQueue};
+    return $self->details->{inQueue};
 }
 
 method queue_item {
-    return Net::Jenkins::Job::QueueItem->new( %{ $self->config->{queueItem} } , _api => $self->_api , job => $self );
+    return Net::Jenkins::Job::QueueItem->new( %{ $self->details->{queueItem} } , _api => $self->_api , job => $self );
 }
 
 # get builds
@@ -70,12 +70,12 @@ method builds {
 }
 
 method last_build {
-    my $b = $self->config->{lastBuild};
+    my $b = $self->details->{lastBuild};
     return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if $b && %$b;
 }
 
 method first_build {
-    my $b = $self->config->{firstBuild};
+    my $b = $self->details->{firstBuild};
     return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if $b && %$b;
 }
 
