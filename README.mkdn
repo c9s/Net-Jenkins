@@ -1,13 +1,3 @@
-### create\_job
-
-mode:
-
-    hudson.model.FreeStyleProject (default)
-    hudson.maven.MavenModuleSet
-    hudson.matrix.MatrixProject
-    hudson.model.ExternalJob
-    copy
-
 # NAME
 
 Net::Jenkins -
