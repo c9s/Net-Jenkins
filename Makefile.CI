@@ -19,7 +19,8 @@ prepare:
 	mkdir -p $(LOG_DIR)
 
 build:
-	perl Makefile.PL
+	perl Makefile.PL && make
+	cpanm --installdeps .
 
 tests: build
 	HARNESS_PERL_SWITCHES=-MDevel::Cover=+ignore,inc prove -lv --formatter TAP::Formatter::JUnit t \
