@@ -12,7 +12,6 @@ my $mode = $jenkins->mode;
 ok $summary;
 
 my $xml = read_file 'xt/config.xml'; 
-
 ok $jenkins->create_job( 'Phifty', $xml ) , "job created";
 ok $jenkins->copy_job( 'test2' , 'Phifty' ) , "job copied";
 

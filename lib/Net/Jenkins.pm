@@ -208,7 +208,45 @@ Net::Jenkins -
 
 =head1 SYNOPSIS
 
-  use Net::Jenkins;
+    my $jenkins = Net::Jenkins->new;
+    my $summary = $jenkins->summary;
+    my @views = $jenkins->views;
+    my $mode = $jenkins->mode;
+
+    my $xml = read_file 'xt/config.xml'; 
+    if( $jenkins->create_job( 'Phifty', $xml ) ) {
+        $jenkins->copy_job( 'test2' , 'Phifty' );
+    }
+
+    my @jobs = $jenkins->jobs;   # [ Net::Jenkins::Job , ... ]
+
+    for my $job ( $jenkins->jobs ) {
+
+        # trigger a build
+        $job->build;
+
+        my $config = $job->config;
+        my $queue = $job->queue_item;
+
+        sleep 1 while $job->in_queue ;
+
+        if( $job->last_build ) {
+            $job->last_build->console;
+        }
+
+        # Net::Jenkins::Job::Build
+        for my $build ( $job->builds ) {
+            my $d = $build->details;
+            $build->name;
+            $build->id;
+            $build->created_at;  # DateTime object
+        }
+
+        $job->delete;
+    }
+    $jenkins->restart;  # returns true if success
+
+
 
 =head1 DESCRIPTION
 
