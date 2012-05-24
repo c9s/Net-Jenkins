@@ -1,6 +1,4 @@
 package Net::Jenkins::Job::Build;
-use warnings;
-use strict;
 use Moose;
 use methods;
 use DateTime;

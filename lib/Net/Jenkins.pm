@@ -11,7 +11,7 @@ use methods;
 use URI;
 use JSON;
 
-has protocol => ( is => 'rw', isa => 'Str', default => 'http' );
+has scheme => ( is => 'rw', isa => 'Str', default => 'http' );
 
 has host => ( 
             is => 'rw', 
@@ -30,7 +30,7 @@ has user_agent => ( is => 'rw' , default => sub {
 });
 
 method get_base_url {
-    return $self->protocol 
+    return $self->scheme 
                 . '://' . $self->host 
                 . ':' . $self->port;
 }
