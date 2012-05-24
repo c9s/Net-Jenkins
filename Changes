@@ -1,5 +1,8 @@
 Revision history for Perl extension Net::Jenkins
 
+0.03    五  5/25 01:03:57 2012
+        - Add Net::Jenkins::Utils
+
 0.02    三  5/23 10:38:39 2012
         - Fix dependency
 

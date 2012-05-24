@@ -1,7 +1,7 @@
 package Net::Jenkins;
 use strict;
 use warnings;
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 use Net::Jenkins::Job;
 use Net::Jenkins::Job::Build;
 use Net::HTTP;
