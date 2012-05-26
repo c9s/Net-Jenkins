@@ -11,9 +11,13 @@ ok $job;
 ok $job->name;
 ok $job->url;
 ok $job->api;
+ok $job->to_hashref;
 
 my $build = build_build_object  'http://ci.jruby.org/job/jruby-git/4259';
 ok $build;
 ok $build->name;
+
+my $hashref = $build->to_hashref;
+ok $hashref;
 
 done_testing;

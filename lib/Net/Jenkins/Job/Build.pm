@@ -49,6 +49,15 @@ method console_handle {
     return $self->api->get_build_console_handle( $self->job->name , $self->number );
 }
 
+method to_hashref {
+    return {
+        number => $self->number,
+        url => $self->url,
+        job => $self->job->to_hashref,
+        details => $self->details,
+    };
+}
+
 1;
 __END__
 =head1 NAME
