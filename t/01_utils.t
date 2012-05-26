@@ -10,7 +10,7 @@ my $job = build_job_object 'http://ci.jruby.org/job/jruby-git';
 ok $job;
 ok $job->name;
 ok $job->url;
-ok $job->_api;
+ok $job->api;
 
 my $build = build_build_object  'http://ci.jruby.org/job/jruby-git/4259';
 ok $build;

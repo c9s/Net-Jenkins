@@ -1,5 +1,9 @@
 Revision history for Perl extension Net::Jenkins
 
+0.04    六  5/26 11:17:36 2012
+        - Update pod documentation
+        - Rename _api to api
+
 0.03    五  5/25 01:03:57 2012
         - Add Net::Jenkins::Utils
 
