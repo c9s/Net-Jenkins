@@ -12,39 +12,39 @@ has color => ( is => 'rw' );
 # 'url' => 'http://localhost:8080/job/Phifty/',
 has url => ( is => 'rw' , isa => 'Str' );
 
-has _api => ( is => 'rw' , isa => 'Net::Jenkins' );
+has api => ( is => 'rw' , isa => 'Net::Jenkins' );
 
 method delete {
-    return $self->_api->delete_job( $self->name );
+    return $self->api->delete_job( $self->name );
 }
 
 method update ($xml) {
-    return $self->_api->update_job( $self->name, $xml );
+    return $self->api->update_job( $self->name, $xml );
 }
 
 method copy ($new_job_name) {
-    return $self->_api->copy_job( $new_job_name , $self->name );
+    return $self->api->copy_job( $new_job_name , $self->name );
 }
 
 
 method enable {
-    return $self->_api->enable_job($self->name);
+    return $self->api->enable_job($self->name);
 }
 
 method disable {
-    return $self->_api->disable_job($self->name);
+    return $self->api->disable_job($self->name);
 }
 
 
 # trigger a build
 method build {
-    return $self->_api->build_job($self->name);
+    return $self->api->build_job($self->name);
 }
 
 
 # get job configuration
 method details {
-    return $self->_api->get_job_details( $self->name );
+    return $self->api->get_job_details( $self->name );
 }
 
 method description {
@@ -60,23 +60,95 @@ method in_queue {
 }
 
 method queue_item {
-    return Net::Jenkins::Job::QueueItem->new( %{ $self->details->{queueItem} } , _api => $self->_api , job => $self );
+    return Net::Jenkins::Job::QueueItem->new( %{ $self->details->{queueItem} } , api => $self->api , job => $self );
 }
 
 # get builds
 method builds {
-    return map { Net::Jenkins::Job::Build->new( %$_ , _api => $self->_api, job => $self ) } 
-            $self->_api->get_builds( $self->name );
+    return map { Net::Jenkins::Job::Build->new( %$_ , api => $self->api, job => $self ) } 
+            $self->api->get_builds( $self->name );
 }
 
 method last_build {
     my $b = $self->details->{lastBuild};
-    return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if $b && %$b;
+    return Net::Jenkins::Job::Build->new( %$b , api => $self->api , job => $self ) if $b && %$b;
 }
 
 method first_build {
     my $b = $self->details->{firstBuild};
-    return Net::Jenkins::Job::Build->new( %$b , _api => $self->_api , job => $self ) if $b && %$b;
+    return Net::Jenkins::Job::Build->new( %$b , api => $self->api , job => $self ) if $b && %$b;
 }
 
 1;
+__END__
+=pod
+
+=head1 NAME
+
+Net::Jenkins::Job
+
+=head1 ATTRIBUTES
+
+=head2 name
+
+=head2 color
+
+=head2 url
+
+=head2 api
+
+=head1 METHODS
+
+=head2 delete
+
+Delete this job.
+
+=head2 update ($xml)
+
+$xml [Str]
+
+Update job configuration from XML.
+
+=head2 copy ($new_job_name)
+
+$new_job_name [Str]
+
+Copy from a job.
+
+=head2 enable 
+
+Enable this job.
+
+=head2 disable
+
+Disable this job.
+
+=head2 build
+
+Trigger build
+
+=head2 details
+
+[HashRef] Get job details
+
+=head2 description
+
+[Str] Get job description
+
+=head2 in_queue
+
+[Bool] Is this job in queue ?
+
+=head2 builds
+
+L<Net::Jenkins::Job::Build>[] get build objects.
+
+=head2 last_build
+
+L<Net::Jenkins::Job::Build> Get last build.
+
+=head2 first_build
+
+L<Net::Jenkins::Job::Build> Get first build.
+
+=cut

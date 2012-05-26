@@ -59,7 +59,7 @@ method mode {
 }
 
 method jobs {
-    return map { Net::Jenkins::Job->new( %$_ , _api => $self ) } @{ $self->summary->{jobs} };
+    return map { Net::Jenkins::Job->new( %$_ , api => $self ) } @{ $self->summary->{jobs} };
 }
 
 method use_security {

@@ -38,7 +38,7 @@ sub build_build_object ($) {
         number => $build_id,
         url => $build_url,
         job => $job,
-        _api => build_api_object($job_url),
+        api => build_api_object($job_url),
     );
     return $build;
 }
@@ -53,7 +53,7 @@ sub build_job_object ($) {
         # XXX: color attribute
         name => $job_name,
         url => $job_url,
-        _api => build_api_object $job_url,
+        api => build_api_object $job_url,
     );
     return $job;
 }

@@ -15,10 +15,10 @@ has url => ( is => 'rw', isa => 'Str' );
 
 has job => ( is => 'rw', isa => 'Net::Jenkins::Job' );
 
-has _api => ( is => 'rw' , isa => 'Net::Jenkins' );
+has api => ( is => 'rw' , isa => 'Net::Jenkins' );
 
 method details {  
-    return $self->_api->get_build_details( $self->job->name, $self->number );
+    return $self->api->get_build_details( $self->job->name, $self->number );
 }
 
 method result {
@@ -42,11 +42,69 @@ method created_at {
 }
 
 method console {
-    return $self->_api->get_build_console( $self->job->name, $self->number );
+    return $self->api->get_build_console( $self->job->name, $self->number );
 }
 
 method console_handle {
-    return $self->_api->get_build_console_handle( $self->job->name , $self->number );
+    return $self->api->get_build_console_handle( $self->job->name , $self->number );
 }
 
 1;
+__END__
+=head1 NAME
+
+Net::Jenkins::Job::Build
+
+=head1 ATTRIBUTES
+
+=head2 number
+
+[Int] The build number
+
+=head2 url
+
+[Str] The build page url
+
+=head2 job
+
+[L<Net::Jenkins::Job>] The Job object 
+
+=head2 api
+
+[L<Net::Jenkins>] The API object 
+
+=head1 METHODS
+
+=head2 details
+
+[HashRef] Get details 
+
+=head2 name
+
+[Str] Job name
+
+=head2 id
+
+[Int] Job ID
+
+=head2 created_at
+
+[DateTime] created at 
+
+=head2 console
+
+[Str] Console Output Content
+
+=head2 console_handle
+
+Console FH
+
+=head2 building
+
+[Bool] is this build is building ?
+
+=head2 result
+
+[Str] Build result.
+
+=cut
