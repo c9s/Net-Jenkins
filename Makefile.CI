@@ -16,6 +16,7 @@ clean:
 	rm -vf nytprof.out Makefile Makefile.old;
 	rm -rf blib
 	rm -rf *.tar.gz
+	rm -rf local
 	cover -delete
 
 prepare:
