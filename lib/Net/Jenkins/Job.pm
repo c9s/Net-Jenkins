@@ -79,15 +79,16 @@ method first_build {
     return Net::Jenkins::Job::Build->new( %$b , api => $self->api , job => $self ) if $b && %$b;
 }
 
-method to_hashref ($all_builds) {
+method to_hashref ($with_details) {
     return {
         name    => $self->name,
         color   => $self->color,
         url     => $self->url,
-        details => $self->details,
-
-        ($all_builds) ? (
-            builds => [ map { $_->to_hashref } $self->builds ],
+        ($with_details) ? (
+            details => $self->details,
+            builds => [ map { 
+                    $_->to_hashref($with_details) 
+                } $self->builds ],
         ) : ()
     };
 }

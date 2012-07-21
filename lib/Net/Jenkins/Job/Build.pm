@@ -49,12 +49,13 @@ method console_handle {
     return $self->api->get_build_console_handle( $self->job->name , $self->number );
 }
 
-method to_hashref {
+method to_hashref ($with_details) {
     return {
         number => $self->number,
         url => $self->url,
         job => $self->job->to_hashref,
-        details => $self->details,
+        ($with_details ? 
+            ( details => $self->details ) : () ),
     };
 }
 

@@ -29,6 +29,20 @@ sub BUILDARGS {
     return \%args;
 }
 
+sub to_hashref {
+    my ($self,$with_details) = @_;
+    return {
+        id => $self->id,
+        why => $self->why,
+        stuck => $self->stuck,
+        params => $self->params,
+        buildable => $self->buildable,
+        blocked => $self->blocked,
+        timestamp => $self->timestamp,
+        inQueueSince => $self->inQueueSince,
+    };
+}
+
 =pod 
 
 {
