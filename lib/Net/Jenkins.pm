@@ -123,10 +123,10 @@ method build_job ($job_name) {
 }
 
 
-
 method get_job_details ($job_name) {
-    my $uri = $self->job_url($job_name) . '/api/json';
-    return $self->get_json($uri);
+    return $self->get_json(
+        $self->job_url($job_name) . '/api/json'
+    );
 }
 
 

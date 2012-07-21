@@ -81,9 +81,9 @@ method first_build {
 
 method to_hashref ($all_builds) {
     return {
-        name => $self->name,
-        color => $self->color,
-        url => $self->url,
+        name    => $self->name,
+        color   => $self->color,
+        url     => $self->url,
         details => $self->details,
 
         ($all_builds) ? (

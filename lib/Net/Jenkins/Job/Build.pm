@@ -17,7 +17,7 @@ has job => ( is => 'rw', isa => 'Net::Jenkins::Job' );
 
 has api => ( is => 'rw' , isa => 'Net::Jenkins' );
 
-method details {  
+method details {
     return $self->api->get_build_details( $self->job->name, $self->number );
 }
 
